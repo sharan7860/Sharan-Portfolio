@@ -17,6 +17,8 @@ export default function About() {
     "REST API Development",
     "Automation",
     "Machine Learning",
+    "AI Training & Code Quality",
+    "Testing & Reliability",
     "Problem Solving",
     "Clean Architecture"
   ];
@@ -26,12 +28,14 @@ export default function About() {
     "Full Stack Applications",
     "Browser Automation",
     "Prompt Engineering",
+    "AI Code Evaluation",
     "Production-grade AI Systems"
   ];
 
   useEffect(() => {
-    // Reveal animation for left and right columns driven by scroll progress
-    gsap.fromTo(leftColRef.current, 
+    const context = gsap.context(() => {
+      // Reveal animation for left and right columns driven by scroll progress
+      gsap.fromTo(leftColRef.current,
       { opacity: 0, y: 100, filter: 'blur(8px)' },
       { 
         opacity: 1, 
@@ -46,7 +50,7 @@ export default function About() {
       }
     );
 
-    gsap.fromTo(rightColRef.current, 
+      gsap.fromTo(rightColRef.current,
       { opacity: 0, y: 140, filter: 'blur(8px)' },
       { 
         opacity: 1, 
@@ -62,7 +66,7 @@ export default function About() {
     );
 
     // Pinning / Parallax for background outline typography
-    gsap.fromTo(bgTextRef.current,
+      gsap.fromTo(bgTextRef.current,
       { y: -50, opacity: 0.02, scale: 0.9 },
       {
         y: 50,
@@ -75,11 +79,10 @@ export default function About() {
           scrub: true
         }
       }
-    );
+      );
+    }, containerRef);
 
-    return () => {
-      ScrollTrigger.getAll().forEach(t => t.kill());
-    };
+    return () => context.revert();
   }, []);
 
   return (
@@ -146,6 +149,10 @@ export default function About() {
 
               <p style={{ fontSize: '1.05rem', lineHeight: 1.7, color: 'var(--text-secondary)' }}>
                 I regularly leverage AI engineering tools including Claude Code, GitHub Copilot and ChatGPT to accelerate development, while carefully reviewing, testing and refining generated code into production-quality solutions.
+              </p>
+
+              <p style={{ fontSize: '1.05rem', lineHeight: 1.7, color: 'var(--text-secondary)' }}>
+                As an AI Trainer, I also create evaluation tasks, edge cases and technical explanations that strengthen model reasoning, code quality and developer workflows.
               </p>
             </div>
 

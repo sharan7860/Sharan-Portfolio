@@ -21,8 +21,9 @@ export default function Contact() {
   };
 
   useEffect(() => {
-    // Scroll reveals for contact sections
-    gsap.fromTo(titleRef.current,
+    const context = gsap.context(() => {
+      // Scroll reveals for contact sections
+      gsap.fromTo(titleRef.current,
       { opacity: 0, y: 50 },
       {
         opacity: 1,
@@ -36,7 +37,7 @@ export default function Contact() {
       }
     );
 
-    gsap.fromTo(leftPanelRef.current,
+      gsap.fromTo(leftPanelRef.current,
       { opacity: 0, x: -50, filter: 'blur(5px)' },
       {
         opacity: 1,
@@ -51,7 +52,7 @@ export default function Contact() {
       }
     );
 
-    gsap.fromTo(rightPanelRef.current,
+      gsap.fromTo(rightPanelRef.current,
       { opacity: 0, x: 50, filter: 'blur(5px)' },
       {
         opacity: 1,
@@ -64,11 +65,10 @@ export default function Contact() {
           scrub: 1
         }
       }
-    );
+      );
+    }, sectionRef);
 
-    return () => {
-      ScrollTrigger.getAll().forEach(t => t.kill());
-    };
+    return () => context.revert();
   }, []);
 
   const contactLinks = [
@@ -300,7 +300,7 @@ export default function Contact() {
           }}
         >
           <div style={{ color: '#ffffff', fontWeight: 600, fontSize: '0.9rem', letterSpacing: '1px' }}>SHARAN KUMAR</div>
-          <div style={{ letterSpacing: '1.5px', textTransform: 'uppercase' }}>Software Engineer</div>
+          <div style={{ letterSpacing: '1.5px', textTransform: 'uppercase' }}>Software Engineer · AI Trainer</div>
           <div>Built with React + Vite + Tailwind CSS</div>
           <div style={{ marginTop: '10px', fontSize: '0.78rem' }}>© 2026 ALL RIGHTS RESERVED</div>
         </div>

@@ -1,6 +1,7 @@
-import { useRef, useEffect } from 'react';
+import { useRef, useEffect, useState } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import LiveBackground from './LiveBackground';
 
 // Register GSAP ScrollTrigger
 gsap.registerPlugin(ScrollTrigger);
@@ -9,38 +10,50 @@ export default function Hero() {
   const containerRef = useRef(null);
   const titleContainerRef = useRef(null);
   const metaContainerRef = useRef(null);
+  const gridRef = useRef(null);
+  const [focusMode, setFocusMode] = useState('Build');
+
+  const focusModes = {
+    Build: 'Full-stack products with clear, thoughtful interfaces.',
+    Train: 'AI evaluation, code quality, and technical reasoning workflows.',
+    Automate: 'Reliable browser and data workflows that remove repetitive work.',
+  };
 
   useEffect(() => {
-    // GSAP ScrollTrigger Timeline for Hero pinning and scaling
-    const tl = gsap.timeline({
-      scrollTrigger: {
-        trigger: containerRef.current,
-        start: "top top",
-        end: "bottom top",
-        scrub: 1,
-        pin: true,
-        pinSpacing: false,
-      }
-    });
+    const context = gsap.context(() => {
+      // Fade the hero as it naturally scrolls out of view.
+      const tl = gsap.timeline({
+        scrollTrigger: {
+          trigger: containerRef.current,
+          start: "top top",
+          end: "bottom top",
+          scrub: 1,
+        }
+      });
 
-    // Scale title down and move it upward towards the navbar
-    tl.to(titleContainerRef.current, {
-      scale: 0.55,
-      y: -120,
-      opacity: 0,
-      ease: "power2.out",
-    }, 0);
+      // Scale title down and move it upward towards the navbar
+      tl.to(titleContainerRef.current, {
+        scale: 0.55,
+        y: -120,
+        opacity: 0,
+        ease: "power2.out",
+      }, 0);
 
-    // Fade and translate description and buttons downward
-    tl.to(metaContainerRef.current, {
-      opacity: 0,
-      y: 80,
-      ease: "power2.out",
-    }, 0);
+      // Fade and translate description and buttons downward
+      tl.to(metaContainerRef.current, {
+        opacity: 0,
+        y: 80,
+        ease: "power2.out",
+      }, 0);
 
-    return () => {
-      ScrollTrigger.getAll().forEach(t => t.kill());
-    };
+      tl.to(gridRef.current, {
+        scale: 1.18,
+        opacity: 0,
+        ease: 'power2.out',
+      }, 0);
+    }, containerRef);
+
+    return () => context.revert();
   }, []);
 
   return (
@@ -58,8 +71,18 @@ export default function Hero() {
         backgroundColor: '#050505',
       }}
     >
+      <LiveBackground />
+
+      <div className="hero-command-lines" aria-hidden="true">
+        <span>const craft = ['AI', 'systems', 'quality'];</span>
+        <span>status: shipping meaningful software</span>
+        <span>scroll to inspect the build</span>
+      </div>
+
       {/* Subtle Cyber Grid Overlay */}
       <div 
+        ref={gridRef}
+        className="hero-grid-overlay"
         style={{
           position: 'absolute',
           top: 0,
@@ -139,7 +162,7 @@ export default function Hero() {
               backgroundColor: 'var(--accent-cyan)',
               boxShadow: '0 0 10px var(--accent-cyan)',
             }} />
-            <span>Software Engineer // AI & Full Stack</span>
+            <span>Software Engineer // AI Trainer // Full Stack</span>
           </div>
 
           {/* Title */}
@@ -175,7 +198,7 @@ export default function Hero() {
               margin: '0 auto 24px auto',
             }}
           >
-            Software Engineer specializing in AI-powered systems, full-stack development and automation.
+            Software Engineer and AI Trainer specializing in AI-powered systems, full-stack development, code quality and automation.
           </h2>
 
           {/* Description */}
@@ -188,7 +211,7 @@ export default function Hero() {
               margin: '0 auto 40px auto',
             }}
           >
-            I build intelligent products that combine modern web technologies, AI models and automation workflows. My experience spans React, TypeScript, FastAPI, Python, machine learning and AI-assisted engineering to deliver production-ready software.
+            I build and evaluate intelligent products across web engineering, AI models, automation, testing and deployment. My work spans React, TypeScript, FastAPI, Python, machine learning and AI-assisted engineering.
           </p>
 
           {/* Action buttons */}
@@ -220,11 +243,8 @@ export default function Hero() {
             </a>
 
             <a
-              href="#"
-              onClick={(e) => {
-                e.preventDefault();
-                alert("Resume download triggered (Placeholder)");
-              }}
+              href="/Sharan-Kumar-Resume.pdf"
+              download="Sharan-Kumar-Resume.pdf"
               style={{
                 textDecoration: 'none',
                 padding: '16px 32px',
@@ -275,7 +295,30 @@ export default function Hero() {
               Get In Touch
             </a>
           </div>
+
+          <div className="hero-focus-dock" aria-label="Current focus areas">
+            <span className="hero-focus-label">Live focus</span>
+            <div className="hero-focus-controls">
+              {Object.keys(focusModes).map((mode) => (
+                <button
+                  type="button"
+                  key={mode}
+                  className={focusMode === mode ? 'is-active' : ''}
+                  onClick={() => setFocusMode(mode)}
+                  aria-pressed={focusMode === mode}
+                >
+                  <i />{mode}
+                </button>
+              ))}
+            </div>
+            <p key={focusMode}>{focusModes[focusMode]}</p>
+          </div>
         </div>
+      </div>
+
+      <div className="hero-scroll-cue" aria-hidden="true">
+        <span>Scroll to explore</span>
+        <i />
       </div>
 
       <style>{`

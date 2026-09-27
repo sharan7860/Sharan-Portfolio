@@ -2,16 +2,20 @@ import CustomCursor from './components/CustomCursor';
 import Navbar from './components/Navbar';
 import Hero from './components/Hero';
 import About from './components/About';
+import Experience from './components/Experience';
 import Console from './components/Console';
 import Projects from './components/Projects';
 import Contact from './components/Contact';
 import ScrollProgress from './components/ScrollProgress';
+import ScrollRail from './components/ScrollRail';
+import ScrollScene from './components/ScrollScene';
 
 function App() {
   return (
     <>
       {/* Scroll Progress Bar Indicator */}
       <ScrollProgress />
+      <ScrollRail />
 
       {/* Background Visual Enhancements */}
       <div className="grain-overlay" />
@@ -31,10 +35,11 @@ function App() {
       {/* Content Layout Sections */}
       <main>
         <Hero />
-        <About />
-        <Console />
+        <ScrollScene><About /></ScrollScene>
+        <ScrollScene><Experience /></ScrollScene>
+        <ScrollScene><Console /></ScrollScene>
         <Projects />
-        <Contact />
+        <ScrollScene><Contact /></ScrollScene>
       </main>
     </>
   );

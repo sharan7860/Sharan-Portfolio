@@ -1,6 +1,6 @@
 import { useEffect, useState, useRef } from 'react';
 import { motion } from 'framer-motion';
-import { Terminal, Activity, CheckCircle2 } from 'lucide-react';
+import { Terminal, Activity } from 'lucide-react';
 
 export default function Console() {
   const [logs, setLogs] = useState([
@@ -15,8 +15,22 @@ export default function Console() {
     FastAPI: { status: "LISTENING", value: 100 },
     Python: { status: "ACTIVE", value: 100 },
     TensorFlow: { status: "PROCESSING", value: 92 },
-    Playwright: { status: "TESTING", value: 85 }
+    Playwright: { status: "TESTING", value: 85 },
+    Docker: { status: "DEPLOYED", value: 94 },
+    Firebase: { status: "SECURED", value: 91 }
   });
+  const [selectedTech, setSelectedTech] = useState('Python');
+
+  const techDetails = {
+    React: 'Interface systems, responsive layouts, and interaction design.',
+    TypeScript: 'Type-safe application logic and maintainable frontend architecture.',
+    FastAPI: 'Fast, documented service layers and REST API design.',
+    Python: 'Automation, machine-learning workflows, data pipelines, and backend systems.',
+    TensorFlow: 'Forecasting experiments and model-backed product features.',
+    Playwright: 'Browser automation, end-to-end testing, and resilient workflows.',
+    Docker: 'Repeatable local and production environments for dependable delivery.',
+    Firebase: 'Authentication and managed application services.',
+  };
 
   const logContainerRef = useRef(null);
 
@@ -34,10 +48,12 @@ export default function Console() {
       "[INFO] FastAPI gateway router listening on port 8000",
       "[MODEL] TensorFlow loaded LSTM model weights (98.6% accuracy)",
       "[RUNNING] Playwright executing browser automation workers",
+      "[SUCCESS] AI code evaluation suite passed edge-case review",
       "[SUCCESS] TypeScript assets compiled successfully in 280ms",
       "[ALERT] New user application parsed on Sonit Brilliance",
       "[SUCCESS] Firebase authentication initialized",
       "[INFO] Vercel & Render production deployments: ACTIVE",
+      "[INFO] Docker service health and Firebase authentication verified",
       "[INFO] Fetching real-time market data indexes...",
       "[SUCCESS] Clean Architecture checklist verified"
     ];
@@ -151,8 +167,12 @@ export default function Console() {
               }}
             >
               {Object.entries(activeTech).map(([name, data]) => (
-                <div 
+                <button
                   key={name} 
+                  type="button"
+                  onClick={() => setSelectedTech(name)}
+                  aria-pressed={selectedTech === name}
+                  className={`console-tech-card ${selectedTech === name ? 'is-selected' : ''}`}
                   style={{ 
                     display: 'flex', 
                     flexDirection: 'column', 
@@ -160,7 +180,11 @@ export default function Console() {
                     padding: '16px',
                     borderRadius: '12px',
                     background: 'rgba(255,255,255,0.01)',
-                    border: '1px solid rgba(255,255,255,0.03)'
+                    border: '1px solid rgba(255,255,255,0.03)',
+                    color: 'inherit',
+                    font: 'inherit',
+                    textAlign: 'left',
+                    cursor: 'none',
                   }}
                 >
                   <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
@@ -196,8 +220,18 @@ export default function Console() {
                     <span>LOAD_CAP</span>
                     <span>{data.value}%</span>
                   </div>
-                </div>
+                </button>
               ))}
+            </div>
+
+            <div className="console-focus-panel">
+              <Activity size={18} />
+              <div>
+                <span>Selected module</span>
+                <strong>{selectedTech}</strong>
+                <p>{techDetails[selectedTech]}</p>
+              </div>
+              <span className="console-focus-hint">Click a module to inspect</span>
             </div>
 
             {/* Logs Area */}

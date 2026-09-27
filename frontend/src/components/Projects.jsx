@@ -1,7 +1,6 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { TrendingUp, Play, Activity, Check } from 'lucide-react';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -57,57 +56,46 @@ function JobAutomationMockup() {
   );
 }
 
-// 2. Trader AI Mockup
-function TraderAIMockup() {
+// 2. Signal AI live project preview
+function SignalAIMockup() {
   return (
-    <div 
-      style={{
-        position: 'relative',
-        width: '100%',
-        height: '100%',
-        minHeight: '260px',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        background: 'radial-gradient(circle at 50% 50%, rgba(0, 242, 254, 0.05), transparent 70%)',
-        overflow: 'hidden',
-        borderRadius: '12px',
-      }}
-    >
-      <div 
-        style={{
-          position: 'absolute',
-          width: '100%',
-          height: '100%',
-          backgroundImage: 'linear-gradient(rgba(0, 242, 254, 0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(0, 242, 254, 0.04) 1px, transparent 1px)',
-          backgroundSize: '20px 20px',
-          maskImage: 'radial-gradient(circle, black, transparent)',
-          WebkitMaskImage: 'radial-gradient(circle, black, transparent)',
-        }}
-      />
-      <svg width="85%" height="80%" viewBox="0 0 400 240" fill="none" xmlns="http://www.w3.org/2000/svg" style={{ zIndex: 1 }}>
-        <rect x="10" y="10" width="380" height="220" rx="8" stroke="rgba(255,255,255,0.06)" strokeWidth="1.5" fill="rgba(6,6,12,0.6)" />
-        <line x1="10" y1="45" x2="390" y2="45" stroke="rgba(255,255,255,0.06)" />
-        <circle cx="28" cy="28" r="4" fill="#ff5f56" />
-        <circle cx="40" cy="28" r="4" fill="#ffbd2e" />
-        <circle cx="52" cy="28" r="4" fill="#27c93f" />
-        <text x="75" y="32" fill="rgba(255,255,255,0.3)" fontSize="10" fontFamily="var(--font-mono)">TRADER_AI_v1.0.4</text>
-        <path d="M 25 200 Q 80 180 120 150 T 220 160 T 320 80 T 375 70" stroke="url(#cyanGlow)" strokeWidth="3" strokeLinecap="round" />
-        <circle cx="375" cy="70" r="3" fill="#ffffff" />
-        <text x="30" y="75" fill="var(--text-secondary)" fontSize="10" fontFamily="var(--font-mono)">INDEX: AI_ALPHA</text>
-        <text x="30" y="95" fill="#ffffff" fontSize="16" fontWeight="bold" fontFamily="var(--font-sans)">$94,821.50</text>
+    <div className="signal-ai-preview">
+      <svg viewBox="0 0 640 360" role="img" aria-label="Signal AI stock research workspace preview">
         <defs>
-          <linearGradient id="cyanGlow" x1="0%" y1="0%" x2="100%" y2="0%">
-            <stop offset="0%" stopColor="var(--accent-purple)" />
-            <stop offset="100%" stopColor="var(--accent-cyan)" />
-          </linearGradient>
+          <radialGradient id="signalGlow" cx="75%" cy="58%" r="48%">
+            <stop offset="0%" stopColor="#87fff1" stopOpacity=".95" />
+            <stop offset="28%" stopColor="#20cdbd" stopOpacity=".48" />
+            <stop offset="100%" stopColor="#021717" stopOpacity="0" />
+          </radialGradient>
+          <linearGradient id="signalLine" x1="0" x2="1"><stop stopColor="#18cfc0" stopOpacity=".3" /><stop offset="1" stopColor="#52f3df" /></linearGradient>
         </defs>
+        <rect width="640" height="360" fill="#021719" />
+        <rect width="640" height="360" fill="url(#signalGlow)" />
+        <path d="M0 250 L78 250 L119 218 L170 232 L232 188 L290 205 L350 173 L410 188 L484 120 L560 130 L640 88" fill="none" stroke="url(#signalLine)" strokeWidth="3" />
+        <circle cx="468" cy="207" r="62" fill="none" stroke="#7bfff2" strokeOpacity=".22" /><circle cx="468" cy="207" r="36" fill="#58ebdc" fillOpacity=".72" />
+        <rect x="19" y="20" width="92" height="26" rx="13" fill="#0a2d2f" stroke="#4de3d5" strokeOpacity=".3" /><circle cx="35" cy="33" r="4" fill="#6affdc" /><text x="46" y="37" fill="#ecfffd" fontSize="12" fontFamily="Arial, sans-serif" fontWeight="700">Signal AI</text>
+        <text x="23" y="154" fill="#f5fffe" fontSize="48" fontFamily="Arial, sans-serif" fontWeight="800">Predict</text><text x="23" y="205" fill="#7bfff0" fontSize="48" fontFamily="Arial, sans-serif" fontWeight="800">Smarter.</text><text x="23" y="256" fill="#dbe6e5" fontSize="47" fontFamily="Arial, sans-serif" fontWeight="800">Trade Better.</text>
+        <rect x="430" y="142" width="101" height="43" rx="11" fill="#082326" stroke="#62e7db" strokeOpacity=".25" /><text x="442" y="158" fill="#b9d5d2" fontSize="8" fontFamily="Arial, sans-serif">Explore stocks</text><text x="442" y="174" fill="#63f0dc" fontSize="12" fontFamily="Arial, sans-serif" fontWeight="700">Price history</text>
       </svg>
+      <div className="signal-ai-preview-overlay">
+        <span>Live project preview</span>
+        <strong>Signal AI</strong>
+      </div>
     </div>
   );
 }
 
-// 3. Stock Prediction ML Mockup
+// 3. Trading Charts Generator output
+function TradingChartsMockup() {
+  return (
+    <figure className="trading-chart-preview">
+      <img src="/projects/trading-charts/bitx-trading-chart.png" alt="BITX trading chart generated by the project, showing price signals, MACD, and RSI." />
+      <figcaption><span>OUTPUT // GRAPH_GENERATOR.PY</span><strong>BITX technical analysis</strong></figcaption>
+    </figure>
+  );
+}
+
+// 4. Stock Prediction ML Mockup
 function StockMLMockup() {
   return (
     <div 
@@ -195,6 +183,8 @@ function NetflixCloneMockup() {
 export default function Projects() {
   const containerRef = useRef(null);
   const bgTextRef = useRef(null);
+  const hudRef = useRef(null);
+  const [activeProject, setActiveProject] = useState(1);
 
   const projectsData = [
     {
@@ -214,32 +204,53 @@ export default function Projects() {
       ],
       tags: ['Python', 'Playwright', 'JSON', 'Browser Automation'],
       mockup: <JobAutomationMockup />,
+      portal: false,
       github: 'https://github.com/sharan7860',
       demo: '#',
     },
     {
-      id: 'stock-intelligence',
+      id: 'signal-ai',
       num: '02',
-      title: 'AI-Powered Stock Market Intelligence Platform',
-      tag: 'Artificial Intelligence',
-      overview: 'Full-stack AI-driven finance platform providing stock recommendations.',
-      problem: 'Retail investors face data overload and struggle to extract explainable, actionable insights from raw financial metrics and market trends.',
-      solution: 'Built a unified dashboard providing AI chatbot insights, algorithmic portfolio suggestions, and deep technical analyses.',
+      title: 'Signal AI',
+      tag: 'AI Market Research',
+      overview: 'An AI-powered stock research workspace for prices, signals, projections, and portfolio tracking.',
+      problem: 'Market information can be hard to interpret when price history, technical indicators, news, and investment context live in separate places.',
+      solution: 'Built a focused research workspace that combines technical signals, illustrative projections, portfolio context, and an AI learning assistant.',
       features: [
-        "AI Chat for market Q&A",
-        "Unified stock metrics dashboard",
-        "Algorithm-driven portfolio suggestions",
-        "Explainable recommendations engine",
-        "Dynamic technical indicators & charts"
+        'Stock analysis and price history',
+        'RSI, MACD, and moving averages',
+        'Illustrative 30-weekday projections',
+        'AI assistant for market learning',
+        'Local portfolio tracking and signals'
       ],
-      tags: ['React', 'FastAPI', 'TensorFlow', 'OpenRouter', 'Framer Motion'],
-      mockup: <TraderAIMockup />,
+      tags: ['React', 'AI Assistant', 'Technical Analysis', 'Market Research'],
+      mockup: <SignalAIMockup />,
       github: 'https://github.com/sharan7860',
+      demo: 'https://sharan7860.github.io/signal-ai/',
+    },
+    {
+      id: 'trading-charts',
+      num: '03',
+      title: 'Trading Charts Generator',
+      tag: 'Technical Analysis',
+      overview: 'A Python graph generator that turns historical market data into readable trading-analysis charts.',
+      problem: 'Price action, momentum, and overbought or oversold conditions are difficult to compare when they are separated across tools.',
+      solution: 'Built a reusable charting workflow that downloads historical data and plots price signals, MACD, and RSI together in one view.',
+      features: [
+        'Historical market-data retrieval',
+        'Buy and sell signal detection',
+        'MACD, signal line, and histogram',
+        'RSI overbought and oversold ranges',
+        'High-resolution chart export'
+      ],
+      tags: ['Python', 'yfinance', 'Pandas', 'Matplotlib', 'MACD', 'RSI'],
+      mockup: <TradingChartsMockup />,
+      github: 'https://github.com/sharan7860/trading-charts-code',
       demo: '#',
     },
     {
       id: 'stock-ml',
-      num: '03',
+      num: '04',
       title: 'Stock Price Prediction ML',
       tag: 'Machine Learning',
       overview: 'LSTM-based forecasting engine with interactive Streamlit visualization.',
@@ -254,12 +265,13 @@ export default function Projects() {
       ],
       tags: ['Python', 'TensorFlow', 'LSTM', 'Pandas', 'Streamlit'],
       mockup: <StockMLMockup />,
+      portal: false,
       github: 'https://github.com/sharan7860',
       demo: '#',
     },
     {
       id: 'netflix-clone',
-      num: '04',
+      num: '05',
       title: 'Netflix Clone',
       tag: 'Frontend',
       overview: 'High-fidelity React implementation replicating Netflix UI elements.',
@@ -274,63 +286,66 @@ export default function Projects() {
       ],
       tags: ['React', 'HTML5', 'CSS3', 'Tailwind CSS'],
       mockup: <NetflixCloneMockup />,
+      portal: false,
       github: 'https://github.com/sharan7860',
       demo: '#',
     }
   ];
 
   useEffect(() => {
-    const cards = gsap.utils.toArray('.project-stack-card');
-    
-    // Pin and stack cards cleanly
-    cards.forEach((card, index) => {
-      ScrollTrigger.create({
-        trigger: card,
-        start: "top top",
-        pin: true,
-        pinSpacing: false,
-        end: "bottom top",
-        id: `card-pin-${index}`,
+    const cards = Array.from(containerRef.current.querySelectorAll('.project-stack-card'));
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    if (reduceMotion) {
+      cards.forEach((card) => card.classList.add('is-visible'));
+    }
+
+    const cardObserver = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (!entry.isIntersecting) return;
+
+        const card = entry.target;
+        card.classList.add('is-visible');
+        setActiveProject(Number(card.dataset.projectIndex));
+        cardObserver.unobserve(card);
       });
+    }, {
+      threshold: 0.28,
+      rootMargin: '0px 0px -8% 0px',
     });
 
-    // Parallax on mockups
-    cards.forEach((card) => {
-      const visual = card.querySelector('.project-visual-wrapper');
-      
-      gsap.fromTo(visual, 
-        { y: 35 },
-        { 
-          y: -35, 
-          ease: "none",
+    cards.forEach((card) => cardObserver.observe(card));
+
+    const context = gsap.context(() => {
+      ScrollTrigger.create({
+        trigger: containerRef.current,
+        start: 'top 62%',
+        end: 'bottom 35%',
+        onEnter: () => gsap.to(hudRef.current, { autoAlpha: 1, x: 0, duration: 0.35 }),
+        onEnterBack: () => gsap.to(hudRef.current, { autoAlpha: 1, x: 0, duration: 0.35 }),
+        onLeave: () => gsap.to(hudRef.current, { autoAlpha: 0, x: 18, duration: 0.22 }),
+        onLeaveBack: () => gsap.to(hudRef.current, { autoAlpha: 0, x: 18, duration: 0.22 }),
+      });
+
+      gsap.fromTo(bgTextRef.current,
+        { y: -80, opacity: 0.02, scale: 0.95 },
+        {
+          y: 80,
+          opacity: 0.08,
+          scale: 1.05,
           scrollTrigger: {
-            trigger: card,
-            start: "top bottom",
-            end: "bottom top",
-            scrub: true
-          }
-        }
+            trigger: containerRef.current,
+            start: 'top bottom',
+            end: 'bottom top',
+            scrub: true,
+          },
+        },
       );
-    });
-
-    // Section outline typography parallax
-    gsap.fromTo(bgTextRef.current,
-      { y: -80, opacity: 0.02, scale: 0.95 },
-      {
-        y: 80,
-        opacity: 0.08,
-        scale: 1.05,
-        scrollTrigger: {
-          trigger: containerRef.current,
-          start: "top bottom",
-          end: "bottom top",
-          scrub: true
-        }
-      }
-    );
+    }, containerRef);
 
     return () => {
-      ScrollTrigger.getAll().forEach(t => t.kill());
+      cardObserver.disconnect();
+      context.revert();
     };
   }, []);
 
@@ -363,8 +378,17 @@ export default function Projects() {
           willChange: 'transform, opacity'
         }}
       >
-        02 // WORK
+        {String(projectsData.length).padStart(2, '0')} // WORK
       </div>
+
+      <aside className="project-hud" ref={hudRef} aria-live="polite">
+        <span className="project-hud-label">Case study</span>
+        <strong>{String(activeProject).padStart(2, '0')} <i>/</i> {String(projectsData.length).padStart(2, '0')}</strong>
+        <span className="project-hud-current">{projectsData[activeProject - 1]?.tag}</span>
+        <div className="project-hud-bars" aria-hidden="true">
+          {projectsData.map((project, index) => <span key={project.id} className={index + 1 <= activeProject ? 'is-active' : ''} />)}
+        </div>
+      </aside>
 
       {/* Cards stack layer */}
       <div style={{ position: 'relative', zIndex: 1 }}>
@@ -374,6 +398,7 @@ export default function Projects() {
             <div 
               key={project.id} 
               className="project-stack-card"
+              data-project-index={index + 1}
               style={{
                 height: '100vh',
                 display: 'flex',
@@ -386,8 +411,13 @@ export default function Projects() {
                 padding: '0 40px',
               }}
             >
+              <div className="project-case-nav" aria-hidden="true">
+                <span>CASE_{project.num}</span>
+                <i />
+                <span>{projectsData[index + 1] ? `NEXT_${projectsData[index + 1].num}` : 'END_OF_WORK'}</span>
+              </div>
               <div 
-                className="content-container project-row"
+                className="content-container project-row project-slide-content"
                 style={{
                   display: 'grid',
                   gridTemplateColumns: '1fr',
@@ -413,7 +443,8 @@ export default function Projects() {
                     willChange: 'transform'
                   }}
                 >
-                  {project.mockup}
+                  {project.portal !== false && <div className="project-reveal-portal" aria-hidden="true"><i /><i /><i /><b /></div>}
+                  <div className="project-visual-content">{project.mockup}</div>
                 </div>
 
                 {/* Case Study Details Column */}
@@ -426,6 +457,7 @@ export default function Projects() {
                     gap: '20px',
                   }}
                 >
+                  <span className="project-case-line" aria-hidden="true" />
                   {/* Project Tag */}
                   <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
                     <span style={{ 
@@ -500,6 +532,17 @@ export default function Projects() {
                     ))}
                   </div>
 
+                  {project.demo !== '#' && (
+                    <a
+                      href={project.demo}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="project-live-link"
+                    >
+                      Open Signal AI <span aria-hidden="true">↗</span>
+                    </a>
+                  )}
+
 
                 </div>
               </div>
@@ -511,6 +554,139 @@ export default function Projects() {
       <style>{`
         .project-stack-card {
           position: relative;
+          perspective: 1200px;
+          isolation: isolate;
+        }
+
+        .project-case-nav {
+          position: absolute;
+          top: 28px;
+          left: clamp(22px, 4vw, 64px);
+          z-index: 1;
+          display: flex;
+          align-items: center;
+          gap: 10px;
+          color: rgba(202, 255, 250, .52);
+          font-family: var(--font-mono);
+          font-size: .6rem;
+          letter-spacing: .12em;
+          opacity: 0;
+          transform: translateY(-12px);
+          transition: transform 600ms cubic-bezier(.16, 1, .3, 1) 100ms, opacity 420ms ease 100ms;
+        }
+
+        .project-case-nav i {
+          display: block;
+          width: clamp(42px, 7vw, 88px);
+          height: 1px;
+          background: linear-gradient(90deg, var(--accent-cyan), transparent);
+          box-shadow: 0 0 10px rgba(0, 242, 254, .42);
+          transform: scaleX(.2);
+          transform-origin: left;
+          transition: transform 700ms cubic-bezier(.16, 1, .3, 1) 180ms;
+        }
+
+        .project-slide-content {
+          position: relative;
+          z-index: 1;
+          transform-style: preserve-3d;
+          will-change: transform, opacity;
+          opacity: 0.78;
+          transform: translate3d(0, 42px, 0) scale(0.975);
+          transition: transform 780ms cubic-bezier(.16, 1, .3, 1), opacity 620ms ease-out;
+        }
+
+        .project-visual-content,
+        .project-info-wrapper {
+          transition: transform 820ms cubic-bezier(.16, 1, .3, 1), opacity 650ms ease-out;
+        }
+
+        .project-visual-content {
+          opacity: 0.56;
+          transform: translate3d(38px, 30px, 0) rotateY(-7deg) scale(.94);
+        }
+
+        .project-info-wrapper {
+          opacity: 0.52;
+          transform: translate3d(-32px, 24px, 0);
+        }
+
+        .project-stack-card:nth-child(even) .project-visual-content {
+          transform: translate3d(-38px, 30px, 0) rotateY(7deg) scale(.94);
+        }
+
+        .project-stack-card:nth-child(even) .project-info-wrapper {
+          transform: translate3d(32px, 24px, 0);
+        }
+
+        .project-case-line {
+          opacity: 0;
+          transform: scaleX(.18);
+          transition: transform 850ms cubic-bezier(.16, 1, .3, 1) 140ms, opacity 360ms ease 140ms;
+        }
+
+        .project-stack-card::after {
+          position: absolute;
+          top: 14%;
+          left: 0;
+          z-index: 0;
+          width: 28%;
+          height: 1px;
+          background: linear-gradient(90deg, transparent, var(--accent-cyan), var(--accent-purple), transparent);
+          box-shadow: 0 0 18px rgba(0, 242, 254, .7);
+          content: '';
+          opacity: 0;
+          pointer-events: none;
+        }
+
+        .project-stack-card.is-visible .project-slide-content,
+        .project-stack-card.is-visible .project-visual-content,
+        .project-stack-card.is-visible .project-info-wrapper {
+          opacity: 1;
+          transform: translate3d(0, 0, 0) rotateY(0) scale(1);
+        }
+
+        .project-stack-card.is-visible .project-case-line {
+          opacity: 1;
+          transform: scaleX(1);
+        }
+
+        .project-stack-card.is-visible .project-case-nav {
+          opacity: 1;
+          transform: translateY(0);
+        }
+
+        .project-stack-card.is-visible .project-case-nav i {
+          transform: scaleX(1);
+        }
+
+        .project-stack-card.is-visible::after {
+          animation: projectCaseSweep 900ms cubic-bezier(.16, 1, .3, 1) both;
+        }
+
+        @keyframes projectCaseSweep {
+          0% { opacity: 0; transform: translateX(-120%) scaleX(.2); }
+          32% { opacity: 1; }
+          100% { opacity: 0; transform: translateX(440%) scaleX(1); }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+          .project-slide-content,
+          .project-visual-content,
+          .project-info-wrapper,
+          .project-case-line,
+          .project-case-nav {
+            opacity: 1 !important;
+            transform: none !important;
+            transition: none !important;
+          }
+
+          .project-stack-card::after { display: none; }
+          .project-case-nav i { transform: none !important; transition: none !important; }
+        }
+
+        @media (max-width: 768px) {
+          .project-case-nav { display: none; }
         }
 
         @media (min-width: 992px) {
