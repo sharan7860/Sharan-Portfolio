@@ -40,6 +40,12 @@ body {
   background-image: radial-gradient(circle at 8% 10%, rgba(0, 242, 254, 0.055), transparent 22rem), radial-gradient(circle at 92% 75%, rgba(157, 78, 221, 0.06), transparent 26rem);
 }
 
+html, body, #root {
+  max-width: 100%;
+  overflow-x: hidden;
+  overflow-x: clip;
+}
+
 /* Custom scrollbar */
 ::-webkit-scrollbar {
   width: 6px;
@@ -568,6 +574,28 @@ section {
   .signal-ai-preview { min-height: 235px; }
   .console-focus-panel { align-items: flex-start; padding: 18px 22px; }
   .console-focus-hint { display: none; }
+}
+
+@media (max-width: 480px) {
+  :root { font-size: 14px; }
+
+  .content-container { padding-left: 18px; padding-right: 18px; }
+  section { padding: 72px 0; }
+  #about { padding: 104px 0 !important; }
+
+  .about-details-layout { gap: 34px !important; }
+  .about-details-layout .glass-panel { padding: 22px !important; }
+  .about-details-layout p { font-size: .98rem !important; }
+
+  .console-metrics-grid { grid-template-columns: 1fr !important; gap: 14px !important; padding: 18px !important; }
+  .console-log-area { height: 210px !important; padding: 18px !important; font-size: .73rem !important; }
+  .console-focus-panel { padding: 16px 18px; }
+
+  .project-stack-card { padding: 58px 0 !important; }
+  .project-visual-wrapper { min-height: 210px; }
+  .signal-ai-preview, .signal-ai-preview svg, .trading-chart-preview { min-height: 210px; }
+  .project-features-grid { grid-template-columns: 1fr !important; }
+  .project-live-link { min-height: 44px; align-items: center; }
 }
 
 /* Utility Animations */

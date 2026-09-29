@@ -158,6 +158,7 @@ export default function Console() {
           >
             {/* System Status Metrics */}
             <div 
+              className="console-metrics-grid"
               style={{
                 padding: '30px',
                 borderBottom: '1px solid rgba(255, 255, 255, 0.05)',
@@ -237,6 +238,7 @@ export default function Console() {
             {/* Logs Area */}
             <div 
               ref={logContainerRef}
+              className="console-log-area"
               style={{
                 height: '240px',
                 padding: '24px 30px',

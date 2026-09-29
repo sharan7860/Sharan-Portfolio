@@ -502,7 +502,7 @@ export default function Projects() {
                     <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.72rem', color: 'var(--accent-cyan)', letterSpacing: '1px', textTransform: 'uppercase' }}>
                       Key Features
                     </span>
-                    <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '8px' }}>
+                    <div className="project-features-grid" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '8px' }}>
                       {project.features.map((feature, fIdx) => (
                         <div key={fIdx} style={{ display: 'flex', alignItems: 'center', gap: '8px', fontSize: '0.82rem', color: 'var(--text-secondary)' }}>
                           <span style={{ width: '4px', height: '4px', borderRadius: '50%', backgroundColor: 'var(--accent-cyan)', flexShrink: 0 }} />
@@ -687,6 +687,17 @@ export default function Projects() {
 
         @media (max-width: 768px) {
           .project-case-nav { display: none; }
+          .project-visual-content,
+          .project-info-wrapper,
+          .project-stack-card:nth-child(even) .project-visual-content,
+          .project-stack-card:nth-child(even) .project-info-wrapper {
+            transform: translate3d(0, 26px, 0) scale(.97);
+          }
+
+          .project-stack-card.is-visible .project-visual-content,
+          .project-stack-card.is-visible .project-info-wrapper {
+            transform: translate3d(0, 0, 0) scale(1);
+          }
         }
 
         @media (min-width: 992px) {

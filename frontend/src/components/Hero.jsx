@@ -215,7 +215,7 @@ export default function Hero() {
           </p>
 
           {/* Action buttons */}
-          <div style={{ display: 'flex', gap: '16px', flexWrap: 'wrap', justifyContent: 'center' }}>
+          <div className="hero-actions" style={{ display: 'flex', gap: '16px', flexWrap: 'wrap', justifyContent: 'center' }}>
             <a
               href="#projects"
               onClick={(e) => {
@@ -345,6 +345,17 @@ export default function Hero() {
           #home h1 {
             font-size: clamp(2rem, 8vw, 3rem) !important;
           }
+        }
+
+        @media (max-width: 480px) {
+          #home .content-container { padding: 0 18px !important; }
+          #home h1 { font-size: clamp(1.86rem, 9vw, 2.5rem) !important; line-height: 1.08 !important; }
+          #home h2 { font-size: .94rem !important; }
+          .hero-actions { gap: 10px !important; }
+          .hero-actions a { flex: 1 1 138px; min-height: 46px; padding: 13px 12px !important; font-size: .8rem !important; }
+          .hero-focus-dock { width: 100%; padding: 9px 8px 10px; }
+          .hero-focus-controls { width: 100%; justify-content: space-between; }
+          .hero-focus-controls button { flex: 1; justify-content: center; padding: 8px 5px; }
         }
       `}</style>
     </section>

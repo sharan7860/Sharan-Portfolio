@@ -65,6 +65,7 @@ export default function Navbar() {
         }}
       >
         <div 
+          className="nav-inner"
           style={{
             maxWidth: '1350px',
             margin: '0 auto',
@@ -79,6 +80,7 @@ export default function Navbar() {
           <a 
             href="#home" 
             onClick={(e) => handleLinkClick(e, '#home')}
+            className="nav-brand"
             style={{
               textDecoration: 'none',
               fontFamily: 'var(--font-mono)',
@@ -205,6 +207,7 @@ export default function Navbar() {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -15 }}
             transition={{ duration: 0.25 }}
+            className="mobile-nav-overlay"
             style={{
               position: 'fixed',
               top: '75px',
@@ -275,6 +278,46 @@ export default function Navbar() {
           .desktop-nav-menu { display: block !important; }
           .desktop-nav-cta { display: block !important; }
           .mobile-nav-toggle { display: none !important; }
+        }
+
+        @media (max-width: 480px) {
+          .nav-inner {
+            height: 68px !important;
+            padding: 0 18px !important;
+          }
+
+          .nav-brand {
+            gap: 7px !important;
+            font-size: 21px !important;
+          }
+
+          .nav-brand img {
+            width: 28px !important;
+            height: 28px !important;
+          }
+
+          .mobile-nav-toggle {
+            display: grid !important;
+            width: 44px;
+            height: 44px;
+            place-items: center;
+            padding: 0 !important;
+          }
+
+          .mobile-nav-overlay {
+            top: 68px !important;
+            height: calc(100dvh - 68px) !important;
+            padding: 24px 18px 42px !important;
+            justify-content: flex-start !important;
+            overflow-y: auto;
+          }
+
+          .mobile-nav-overlay ul {
+            gap: 18px !important;
+            padding: 8px 0 28px !important;
+          }
+
+          .mobile-nav-overlay a { font-size: 1.5rem !important; }
         }
         
         @keyframes blink {

@@ -156,7 +156,7 @@ export default function Contact() {
 
             {/* Email Copy Card */}
             <div 
-              className="glass-panel"
+              className="glass-panel contact-email-card"
               style={{
                 display: 'flex',
                 alignItems: 'center',
@@ -183,7 +183,7 @@ export default function Contact() {
                     Direct Email
                   </span>
                   <a href={`mailto:${emailAddress}`} style={{ textDecoration: 'none', color: 'inherit' }}>
-                    <span style={{ fontSize: '1.05rem', fontWeight: 600, color: '#ffffff', fontFamily: 'var(--font-mono)' }}>
+                    <span className="contact-email-address" style={{ fontSize: '1.05rem', fontWeight: 600, color: '#ffffff', fontFamily: 'var(--font-mono)' }}>
                       {emailAddress}
                     </span>
                   </a>
@@ -313,6 +313,16 @@ export default function Contact() {
             grid-template-columns: 1.05fr 0.95fr !important;
             gap: 80px !important;
           }
+        }
+
+        @media (max-width: 480px) {
+          #contact { padding: 112px 0 48px !important; }
+          .contact-email-card { align-items: flex-start !important; gap: 12px; padding: 16px !important; }
+          .contact-email-card > div { min-width: 0; }
+          .contact-email-address { display: block; max-width: 208px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: .78rem !important; }
+          .giant-contact-link { padding: 18px !important; }
+          .giant-contact-link > div:first-child { min-width: 0; gap: 13px !important; }
+          .giant-contact-link span:last-child { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
         }
 
         .email-copy-btn:hover {
