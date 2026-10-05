@@ -119,11 +119,6 @@ export default function LiveBackground() {
   }, []);
 
   return (
-    <>
-      <canvas ref={canvasRef} className="live-3d-background" aria-hidden="true" />
-      <div className="live-3d-orbit" aria-hidden="true">
-        <span /><span /><span /><b />
-      </div>
-    </>
+    <canvas ref={canvasRef} className="live-3d-background" aria-hidden="true" />
   );
 }
