@@ -1,7 +1,6 @@
 import { useRef, useEffect, useState } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import LiveBackground from './LiveBackground';
 
 // Register GSAP ScrollTrigger
 gsap.registerPlugin(ScrollTrigger);
@@ -71,8 +70,6 @@ export default function Hero() {
         backgroundColor: '#050505',
       }}
     >
-      <LiveBackground />
-
       <div className="hero-command-lines" aria-hidden="true">
         <span>const craft = ['AI', 'systems', 'quality'];</span>
         <span>status: shipping meaningful software</span>
