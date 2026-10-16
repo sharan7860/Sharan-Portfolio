@@ -1,0 +1,23 @@
+{
+  "name": "qdrop",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "build:pages": "vite build && node scripts/build-pages.mjs",
+    "preview": "vite preview",
+    "worker:dev": "wrangler dev --config wrangler.worker.jsonc",
+    "deploy": "npm run build && wrangler deploy --config wrangler.worker.jsonc",
+    "deploy:pages": "npm run build:pages && wrangler pages deploy dist",
+    "db:local": "wrangler d1 execute qdrop-db --local --file=./schema.sql",
+    "db:remote": "wrangler d1 execute qdrop-db --remote --file=./schema.sql"
+  },
+  "dependencies": {
+    "qrcode": "^1.5.4"
+  },
+  "devDependencies": {
+    "vite": "^7.1.0",
+    "wrangler": "^4.40.0"
+  }
+}

@@ -1,0 +1,18 @@
+{
+  "name": "qdrop",
+  "pages_build_output_dir": "./dist",
+  "compatibility_date": "2026-10-01",
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "qdrop-db",
+      "database_id": "138b6245-a2bb-4e7a-9a0c-8e72fbce1ee8"
+    }
+  ],
+  "kv_namespaces": [
+    {
+      "binding": "FILES",
+      "id": "7e3001b73fb244a2a7dae5b97c7dfe9e"
+    }
+  ]
+}

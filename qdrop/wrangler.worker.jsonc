@@ -1,0 +1,25 @@
+{
+  "name": "qdrop",
+  "main": "src/worker.js",
+  "compatibility_date": "2026-10-01",
+  "assets": {
+    "directory": "./dist",
+    "binding": "ASSETS"
+  },
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "qdrop-db",
+      "database_id": "138b6245-a2bb-4e7a-9a0c-8e72fbce1ee8"
+    }
+  ],
+  "kv_namespaces": [
+    {
+      "binding": "FILES",
+      "id": "7e3001b73fb244a2a7dae5b97c7dfe9e"
+    }
+  ],
+  "triggers": {
+    "crons": ["0 * * * *"]
+  }
+}
