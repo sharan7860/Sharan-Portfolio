@@ -1,6 +1,6 @@
 # QDrop
 
-QDrop is a small sharing toolbox: short links, browser-generated QR codes, 24-hour file transfers, direct-file links, and a public YouTube video tool.
+QDrop is a small sharing toolbox: short links, browser-generated QR codes, 24-hour file transfers, and direct-file links.
 
 ## What works
 
@@ -8,7 +8,10 @@ QDrop is a small sharing toolbox: short links, browser-generated QR codes, 24-ho
 - QR codes are generated locally in the browser and can be saved as PNG.
 - Files up to 25 MB are stored in Cloudflare Workers KV. The share page presents a QR code; downloads use `/f/:id`. Files expire automatically after 24 hours. The app reserves up to 800 MB of the free 1 GB KV allowance for active files. A newly uploaded file may take a short time to become available in another region because KV is eventually consistent.
 - The direct-link tool opens a public URL in a new tab. The remote host controls whether the browser downloads or previews the file.
-- The YouTube card checks public videos for available qualities and downloads a selected quality through a separate Render web service. It does not require a YouTube login for supported public videos. It does not support private, restricted, live, or DRM-protected media. Downloads are limited to 45 minutes and 250 MB, with one processing job at a time. Users must have rights to save the video. Instagram downloading is not implemented; creators can use Instagram's official export tool.
+
+## Experimental video tool (not live)
+
+The `video-service/` prototype and fifth frontend card are retained on branch `codex/qdrop-video`, but the live Pages site was rolled back to the working four-card release. On Render's free hosting IP, YouTube returned “Sign in to confirm you’re not a bot” for public videos that extracted successfully on a local machine without login. The live downloader therefore cannot honestly be offered as working. Do not redeploy the current frontend to production until an end-to-end download succeeds from a suitable backend. Instagram downloading is not implemented; creators can use Instagram's official export tool.
 
 ## Local development
 
@@ -31,13 +34,13 @@ Requires a Cloudflare account with the free Workers, D1, and KV services. No R2 
 4. `npx wrangler kv namespace create qdrop-files`, then copy the namespace ID into both Wrangler files.
 5. `npm run db:remote`
 6. Create a Pages project with the shortest available memorable name, then put a private `RATE_LIMIT_SALT` secret in that project.
-7. `npm run deploy:pages`.
+7. From the production branch, `npm run deploy:pages`. From another branch, build with `npm run build:pages` and deploy with `npx wrangler pages deploy dist --branch main` only after confirming that build is production-ready. Deploying without `--branch main` from a feature branch creates a preview.
 
 The live site is https://qdrop-ble.pages.dev/. A shorter custom domain can be connected later if one is purchased. The original Worker configuration remains in `wrangler.worker.jsonc` for local development or a future Worker deployment.
 
-## Optional YouTube backend
+## Experimental YouTube backend
 
-The video card requires a Docker Web Service on Render's free plan. Connect this GitHub repository and deploy branch `codex/qdrop-video` with Docker context `qdrop/video-service` and Dockerfile `qdrop/video-service/Dockerfile`. Set a randomly generated, private `VIDEO_BACKEND_SECRET` of at least 32 characters on Render. The service's `/health` endpoint should return `{"ok":true}`. Then set the same `VIDEO_BACKEND_SECRET` and the service's HTTPS origin as `VIDEO_BACKEND_URL` in the Cloudflare Pages production environment and redeploy Pages. Never put the secret in Git or the browser bundle.
+The prototype uses a Docker Web Service on Render's free plan, deployed from branch `codex/qdrop-video` with root directory `qdrop/video-service`, Docker build context `.`, and Dockerfile `Dockerfile`. A private `VIDEO_BACKEND_SECRET` of at least 32 characters must match between Render and Cloudflare Pages; `VIDEO_BACKEND_URL` is the service's HTTPS origin. Never put the secret in Git or the browser bundle. The health check succeeds, but YouTube challenges the Render IP, so the download flow fails in production and is not enabled on the live site.
 
 Render's free service sleeps after inactivity, so the first video check may take about a minute. Its free bandwidth and build-time allotments are finite, and a service without a payment method may be suspended if they are exceeded. The video backend must not be exposed as a generic URL fetcher. Metadata checks are limited to 10 per IP per hour and downloads to 3 per IP per hour at the QDrop Worker. The backend accepts only YouTube video IDs and signed, short-lived download links.
 
