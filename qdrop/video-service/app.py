@@ -9,6 +9,7 @@ from __future__ import annotations
 import hashlib
 import hmac
 import json
+import logging
 import mimetypes
 import os
 import re
@@ -61,6 +62,7 @@ def extract_info(video: str) -> dict:
     except subprocess.TimeoutExpired as exc:
         raise HTTPException(504, "YouTube took too long to respond. Try again.") from exc
     if result.returncode:
+        logging.warning("Video metadata extractor failed: %s", result.stderr[-2500:])
         raise HTTPException(422, "This video is unavailable for download right now.")
     try:
         info = json.loads(result.stdout)
@@ -161,6 +163,7 @@ def download(
         except subprocess.TimeoutExpired as exc:
             raise HTTPException(504, "Download took too long. Try a lower quality.") from exc
         if result.returncode:
+            logging.warning("Video download extractor failed: %s", result.stderr[-2500:])
             raise HTTPException(422, "This quality could not be downloaded. Try another.")
         files = [path for path in Path(work.name).glob("video.*") if path.suffix in ALLOWED_EXTENSIONS]
         if len(files) != 1 or files[0].stat().st_size > MAX_BYTES:
