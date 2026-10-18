@@ -180,6 +180,28 @@ function NetflixCloneMockup() {
   );
 }
 
+// 6. QDrop sharing toolbox preview
+function QDropMockup() {
+  return (
+    <div className="qdrop-preview" role="img" aria-label="QDrop sharing tools preview with link, QR, file transfer, and direct-file utilities">
+      <div className="qdrop-preview-header">
+        <span className="qdrop-preview-brand">q<span>.</span>drop</span>
+        <span>SHARING TOOLS</span>
+      </div>
+      <div className="qdrop-preview-copy">
+        <span>GOOD THINGS</span>
+        <strong>TRAVEL LIGHT.</strong>
+      </div>
+      <div className="qdrop-preview-grid">
+        <div><b>↗</b><span>SHORT LINK</span><small>Make it memorable</small></div>
+        <div><b>▦</b><span>QR CODE</span><small>One scan away</small></div>
+        <div><b>↑</b><span>DROP A FILE</span><small>24-hour transfer</small></div>
+        <div><b>↓</b><span>DIRECT FILE</span><small>Open a public link</small></div>
+      </div>
+    </div>
+  );
+}
+
 export default function Projects() {
   const containerRef = useRef(null);
   const bgTextRef = useRef(null);
@@ -289,6 +311,27 @@ export default function Projects() {
       portal: false,
       github: 'https://github.com/sharan7860',
       demo: '#',
+    },
+    {
+      id: 'qdrop',
+      num: '06',
+      title: 'QDrop',
+      tag: 'Sharing Tools',
+      overview: 'A lightweight web toolbox for creating short links, browser-generated QR codes, expiring file transfers, and direct-file links.',
+      problem: 'Sharing links and files often requires switching between separate services, while many simple tools add friction or retain files longer than needed.',
+      solution: 'Built a focused sharing utility with browser-side QR generation, a Cloudflare Worker API, expiring storage, and a clean mobile-friendly interface.',
+      features: [
+        '90-day expiring short links',
+        'Browser-generated QR code exports',
+        '24-hour file transfers up to 25 MB',
+        'Public direct-file link opener',
+        'Rate-limited Cloudflare KV and D1 backend'
+      ],
+      tags: ['JavaScript', 'Vite', 'Cloudflare Workers', 'KV', 'D1', 'Firebase Hosting'],
+      mockup: <QDropMockup />,
+      portal: false,
+      github: 'https://github.com/sharan7860',
+      demo: 'https://qdrop.web.app/',
     }
   ];
 
@@ -539,7 +582,7 @@ export default function Projects() {
                       rel="noopener noreferrer"
                       className="project-live-link"
                     >
-                      Open Signal AI <span aria-hidden="true">↗</span>
+                      Open {project.title} <span aria-hidden="true">↗</span>
                     </a>
                   )}
 
