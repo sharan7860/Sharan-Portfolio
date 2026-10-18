@@ -1,6 +1,8 @@
 node_modules/
 dist/
 .wrangler/
+.firebase/
 .dev.vars
+!.env.firebase
 .venv/
 __pycache__/

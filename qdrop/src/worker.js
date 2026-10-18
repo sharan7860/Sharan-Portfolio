@@ -2,6 +2,7 @@ const FILE_LIMIT = 25 * 1024 * 1024;
 const FILE_TTL = 24 * 60 * 60 * 1000;
 const LINK_TTL = 90 * 24 * 60 * 60 * 1000;
 const FILE_STORAGE_BUDGET = 800 * 1024 * 1024;
+const FIREBASE_ORIGIN = 'https://qdrop.web.app';
 
 const json = (data, status = 200) => new Response(JSON.stringify(data), {
   status,
@@ -194,8 +195,15 @@ async function cleanup(env) {
   await env.DB.prepare('DELETE FROM rate_limits WHERE expires_at < ?').bind(now).run();
 }
 
-export default {
-  async fetch(request, env) {
+function withFirebaseCors(request, response) {
+  if (request.headers.get('Origin') !== FIREBASE_ORIGIN) return response;
+  const headers = new Headers(response.headers);
+  headers.set('Access-Control-Allow-Origin', FIREBASE_ORIGIN);
+  headers.append('Vary', 'Origin');
+  return new Response(response.body, { status: response.status, headers });
+}
+
+async function handleFetch(request, env) {
     try {
       const url = new URL(request.url);
       const origin = url.origin;
@@ -214,6 +222,25 @@ export default {
       console.error(error);
       return fail('Something went wrong. Please try again.', 500);
     }
+}
+
+export default {
+  async fetch(request, env) {
+    const url = new URL(request.url);
+    if (request.method === 'OPTIONS' && url.pathname.startsWith('/api/')) {
+      if (request.headers.get('Origin') !== FIREBASE_ORIGIN) return new Response(null, { status: 403 });
+      return new Response(null, {
+        status: 204,
+        headers: {
+          'Access-Control-Allow-Origin': FIREBASE_ORIGIN,
+          'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
+          'Access-Control-Allow-Headers': 'Content-Type, X-File-Name',
+          'Access-Control-Max-Age': '86400',
+          'Vary': 'Origin',
+        },
+      });
+    }
+    return withFirebaseCors(request, await handleFetch(request, env));
   },
   async scheduled(_event, env) {
     await cleanup(env);

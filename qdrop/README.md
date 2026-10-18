@@ -11,7 +11,7 @@ QDrop is a small sharing toolbox: short links, browser-generated QR codes, 24-ho
 
 ## Experimental video tool (not live)
 
-The `video-service/` prototype and fifth frontend card are retained on branch `codex/qdrop-video`, but the live Pages site was rolled back to the working four-card release. On Render's free hosting IP, YouTube returned “Sign in to confirm you’re not a bot” for public videos that extracted successfully on a local machine without login. The live downloader therefore cannot honestly be offered as working. Do not redeploy the current frontend to production until an end-to-end download succeeds from a suitable backend. Instagram downloading is not implemented; creators can use Instagram's official export tool.
+The `video-service/` prototype is retained on branch `codex/qdrop-video`, but the fifth card is not included in the public frontend. On Render's free hosting IP, YouTube returned “Sign in to confirm you’re not a bot” for public videos that extracted successfully on a local machine without login. The live downloader therefore cannot honestly be offered as working. Do not add the video card back until an end-to-end download succeeds from a suitable backend. Instagram downloading is not implemented; creators can use Instagram's official export tool.
 
 ## Local development
 
@@ -36,7 +36,16 @@ Requires a Cloudflare account with the free Workers, D1, and KV services. No R2 
 6. Create a Pages project with the shortest available memorable name, then put a private `RATE_LIMIT_SALT` secret in that project.
 7. From the production branch, `npm run deploy:pages`. From another branch, build with `npm run build:pages` and deploy with `npx wrangler pages deploy dist --branch main` only after confirming that build is production-ready. Deploying without `--branch main` from a feature branch creates a preview.
 
-The live site is https://qdrop-ble.pages.dev/. A shorter custom domain can be connected later if one is purchased. The original Worker configuration remains in `wrangler.worker.jsonc` for local development or a future Worker deployment.
+The Cloudflare Pages site at https://qdrop-ble.pages.dev/ remains the API and download backend. The public short address is https://qdrop.web.app/. The original Worker configuration remains in `wrangler.worker.jsonc` for local development or a future Worker deployment.
+
+## Firebase Hosting deployment
+
+Firebase Hosting serves the four working tool cards at `qdrop.web.app` on the no-cost Spark plan. The frontend build in `.env.firebase` calls the existing Cloudflare Pages API. Cloudflare allows cross-origin API requests only from `https://qdrop.web.app`; short-link and file-download paths on Firebase redirect to the Cloudflare backend. The browser presents new short and file-share links under `qdrop.web.app`.
+
+1. `npm run build:firebase`
+2. `npx -y firebase-tools@latest deploy --only hosting --project qdrop-sharan-2026`
+
+The Firebase config targets only the `qdrop` Hosting site in the dedicated `qdrop-sharan-2026` project. Run `npm run build:pages` before deploying to Cloudflare Pages, since the Firebase build intentionally excludes the Pages Worker.
 
 ## Experimental YouTube backend
 

@@ -1,0 +1,30 @@
+{
+  "hosting": {
+    "site": "qdrop",
+    "public": "dist",
+    "ignore": [
+      "firebase.json",
+      "**/.*",
+      "**/node_modules/**",
+      "_worker.js"
+    ],
+    "redirects": [
+      {
+        "source": "/s/:code",
+        "destination": "https://qdrop-ble.pages.dev/s/:code",
+        "type": 302
+      },
+      {
+        "source": "/f/:id",
+        "destination": "https://qdrop-ble.pages.dev/f/:id",
+        "type": 302
+      }
+    ],
+    "rewrites": [
+      {
+        "source": "**",
+        "destination": "/index.html"
+      }
+    ]
+  }
+}

@@ -3,6 +3,8 @@ import './style.css';
 
 const app = document.querySelector('#app');
 const fileId = new URLSearchParams(location.search).get('file');
+const apiOrigin = import.meta.env.VITE_API_ORIGIN || '';
+const apiUrl = path => `${apiOrigin}${path}`;
 
 app.innerHTML = `
   <div class="site-shell">
@@ -16,7 +18,7 @@ app.innerHTML = `
         <div class="hero-content">
           <div class="eyebrow"><span class="eyebrow-dot"></span> QDROP · SHARING TOOLS</div>
           <h1>Share, <em>simply.</em></h1>
-          <p class="hero-copy">Short links, QR codes, files, and video tools in one place. Pick a card to get started.</p>
+          <p class="hero-copy">Short links, QR codes, and file sharing in one place. Pick a card to get started.</p>
         </div>
       </section>
 
@@ -27,7 +29,6 @@ app.innerHTML = `
             <button class="tool-tab" id="tab-qr" type="button" data-tool="qr" aria-expanded="false" aria-controls="tool-panel"><span class="card-top"><span class="card-number">02 / QR CODES</span><span class="tab-icon">▦</span></span><span class="card-copy"><strong>Make a QR code</strong><small>Give any link a scannable code you can save as an image.</small></span><span class="card-action">Create a QR code <span aria-hidden="true">↗</span></span></button>
             <button class="tool-tab" id="tab-file" type="button" data-tool="file" aria-expanded="false" aria-controls="tool-panel"><span class="card-top"><span class="card-number">03 / FILES</span><span class="tab-icon">↑</span></span><span class="card-copy"><strong>Share a file</strong><small>Show a QR on your laptop so someone can scan it and download on their phone.</small></span><span class="card-action">Share a file <span aria-hidden="true">↗</span></span></button>
             <button class="tool-tab" id="tab-download" type="button" data-tool="download" aria-expanded="false" aria-controls="tool-panel"><span class="card-top"><span class="card-number">04 / DIRECT FILES</span><span class="tab-icon">↓</span></span><span class="card-copy"><strong>Open a direct file</strong><small>Open a public file URL. YouTube and Instagram share links are not file URLs.</small></span><span class="card-action">Open a file link <span aria-hidden="true">↗</span></span></button>
-            <button class="tool-tab" id="tab-video" type="button" data-tool="video" aria-expanded="false" aria-controls="tool-panel"><span class="card-top"><span class="card-number">05 / YOUTUBE</span><span class="tab-icon">▶</span></span><span class="card-copy"><strong>Save a video</strong><small>Paste a public YouTube link, choose an available quality, and download.</small></span><span class="card-action">Choose quality <span aria-hidden="true">↗</span></span></button>
           </div>
           <div class="tool-panel" id="tool-panel" role="region" tabindex="-1" hidden>
             <div class="panel-overline"><span class="panel-dot"></span><span id="panel-index">TOOL 01 / SHORT LINK</span></div>
@@ -42,7 +43,7 @@ app.innerHTML = `
 
 const panel = document.querySelector('#panel-content');
 const index = document.querySelector('#panel-index');
-const labels = { shorten: 'TOOL 01 / SHORT LINK', qr: 'TOOL 02 / QR CODE', file: 'TOOL 03 / FILE SHARE', download: 'TOOL 04 / DIRECT LINK', video: 'TOOL 05 / YOUTUBE' };
+const labels = { shorten: 'TOOL 01 / SHORT LINK', qr: 'TOOL 02 / QR CODE', file: 'TOOL 03 / FILE SHARE', download: 'TOOL 04 / DIRECT LINK' };
 
 function message(target, text, kind = 'error') {
   target.textContent = text;
@@ -92,10 +93,10 @@ function renderShorten() {
     if (!value) return message(status, 'Enter a valid public http or https link.');
     submit.disabled = true; submit.textContent = 'Working…'; message(status, '', 'success');
     try {
-      const response = await fetch('/api/links', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ url: value }) });
+      const response = await fetch(apiUrl('/api/links'), { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ url: value }) });
       const data = await response.json();
       if (!response.ok) throw new Error(data.error || 'Could not shorten this link.');
-      const result = document.querySelector('#short-result'); result.replaceChildren(resultBox(data.shortUrl, 'This short link works for 90 days.'));
+      const result = document.querySelector('#short-result'); result.replaceChildren(resultBox(`${location.origin}/s/${encodeURIComponent(data.code)}`, 'This short link works for 90 days.'));
       message(status, 'Your short link is ready.', 'success');
     } catch (error) { message(status, error.message); }
     finally { submit.disabled = false; submit.innerHTML = 'Shorten it <span>↗</span>'; }
@@ -135,10 +136,10 @@ function renderFile() {
     const button = event.currentTarget.querySelector('button');
     button.disabled = true; button.textContent = 'Uploading…'; message(status, 'Uploading your file. Keep this tab open.', 'success');
     try {
-      const response = await fetch('/api/files', { method: 'POST', headers: { 'Content-Type': file.type || 'application/octet-stream', 'X-File-Name': encodeURIComponent(file.name) }, body: file });
+      const response = await fetch(apiUrl('/api/files'), { method: 'POST', headers: { 'Content-Type': file.type || 'application/octet-stream', 'X-File-Name': encodeURIComponent(file.name) }, body: file });
       const data = await response.json();
       if (!response.ok) throw new Error(data.error || 'Could not upload this file.');
-      document.querySelector('#file-result').replaceChildren(resultBox(data.shareUrl, `${data.name} · ${fileSize(data.size)} · expires in 24 hours`));
+      document.querySelector('#file-result').replaceChildren(resultBox(`${location.origin}/?file=${encodeURIComponent(data.id)}`, `${data.name} · ${fileSize(data.size)} · expires in 24 hours`));
       message(status, 'Your file is ready to share.', 'success');
     } catch (error) { message(status, error.message); }
     finally { button.disabled = false; button.innerHTML = 'Create a share link <span>↗</span>'; }
@@ -206,7 +207,7 @@ function renderDownload() {
   });
 }
 
-const renderers = { shorten: renderShorten, qr: renderQr, file: renderFile, video: renderVideo, download: renderDownload };
+const renderers = { shorten: renderShorten, qr: renderQr, file: renderFile, download: renderDownload };
 function selectTool(tool, reveal = false) {
   document.querySelectorAll('.tool-tab').forEach(button => {
     const active = button.dataset.tool === tool;
@@ -226,12 +227,12 @@ document.querySelectorAll('.tool-tab').forEach(button => button.addEventListener
 if (fileId) {
   selectTool('file');
   panel.innerHTML = `<div class="tool-symbol">↓</div><h3>Someone sent<br>you a file.</h3><p class="panel-copy" id="received-description">Checking your download…</p><div class="message" id="receive-message"></div><div id="receive-action"></div><p class="fine-print">This link is available for 24 hours after upload.</p>`;
-  fetch(`/api/files/${encodeURIComponent(fileId)}`).then(async response => {
+  fetch(apiUrl(`/api/files/${encodeURIComponent(fileId)}`)).then(async response => {
     const data = await response.json();
     if (!response.ok) throw new Error(data.error || 'File unavailable.');
     document.querySelector('#received-description').textContent = `${data.name} · ${fileSize(data.size)}`;
     const link = document.createElement('a');
-    link.className = 'full-button download-link'; link.href = `/f/${encodeURIComponent(fileId)}`; link.textContent = 'Download file ↓';
+    link.className = 'full-button download-link'; link.href = apiUrl(`/f/${encodeURIComponent(fileId)}`); link.textContent = 'Download file ↓';
     document.querySelector('#receive-action').append(link);
     message(document.querySelector('#receive-message'), 'Ready to download.', 'success');
   }).catch(error => message(document.querySelector('#receive-message'), error.message));
