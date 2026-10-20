@@ -7,11 +7,11 @@ gsap.registerPlugin(ScrollTrigger);
 
 const roles = [
   {
-    period: 'Jul 2026 - Present',
+    period: 'Jul 2023 - Present',
     title: 'Freelance AI Trainer',
     company: 'Self-employed',
     accent: 'cyan',
-    platforms: ['xAI-Grok', 'Handshake AI'],
+    platforms: ['Handshake AI'],
     highlights: [
       'Create and evaluate programming tasks, code examples, test cases, and technical explanations that improve AI coding performance.',
       'Review AI-generated code for correctness, efficiency, reliability, style, and alignment with technical requirements.',
